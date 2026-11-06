@@ -1,0 +1,47 @@
+# ==============================================================================
+# ĐỒ ÁN CHUYÊN NGÀNH:
+# XÂY DỰNG HỆ THỐNG GIÁM SÁT VÀ PHÁT HIỆN HÀNH VI BẤT THƯỜNG CỦA CONTAINER LÚC CHẠY
+# CUSTOM RULES CHO FALCO
+# ==============================================================================
+
+- custom_rule: Cảnh báo truy cập shell trái phép vào container
+  rule: Terminal shell in container (Custom)
+  desc: Phát hiện hành vi mở interactive shell (bash, sh, zsh) bên trong một container đang chạy
+  condition: >
+    spawned_process and container
+    and shell_procs
+    and proc.tty != 0
+    and container_entrypoint
+  output: >
+    [CANH BAO NGHIEP TRONG] Interactive shell duoc bat trong Container 
+    (user=%user.name user_loginuid=%user.loginuid container_id=%container.id 
+    container_name=%container.name image=%container.image.repository 
+    shell=%proc.name parent=%proc.pname cmdline=%proc.cmdline)
+  priority: WARNING
+  tags: [container, shell, mitre_execution]
+
+- custom_rule: Cảnh báo đọc file mật khẩu nhạy cảm trong container
+  rule: Read sensitive file in container (Custom)
+  desc: Phát hiện tiến trình cố tình đọc file /etc/shadow hoặc /etc/security bên trong container
+  condition: >
+    open_read and container
+    and (fd.name startswith /etc/shadow or fd.name startswith /etc/security)
+  output: >
+    [NGUY HIEM CAP DO CAO] Doc file he thong nhay cam trong Container
+    (user=%user.name file=%fd.name container_id=%container.id 
+    container_name=%container.name command=%proc.cmdline pid=%proc.pid)
+  priority: CRITICAL
+  tags: [container, file, discovery]
+
+- custom_rule: Cảnh báo sử dụng công cụ quét mạng hoặc kết nối bất thường
+  rule: Suspicious network tool launched in container
+  desc: Phát hiện các công cụ dò quét mạng (nmap, netcat, tcpdump, wget, curl lạ) được chạy trong container
+  condition: >
+    spawned_process and container
+    and (proc.name in (nc, netcat, nmap, tcpdump, wireshark))
+  output: >
+    [CANH BAO AN NINH MANG] Cong cu quet mang duoc khoi chay trong Container
+    (user=%user.name tool=%proc.name cmdline=%proc.cmdline 
+    container_id=%container.id container_name=%container.name)
+  priority: ERROR
+  tags: [container, network, reconnaissance]

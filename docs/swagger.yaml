@@ -117,9 +117,8 @@ definitions:
 host: <your-domain>:2802
 info:
   contact:
-    email: cncf-falco-dev@lists.cncf.io
-    name: Falco Authors
-    url: https://github.com/falcosecurity
+    name: Hồ Quốc Trí
+    url: https://github.com/helloboizzz26/DACN_CNTT
   description: Falcosidekick UI
   license:
     name: Apache 2.0

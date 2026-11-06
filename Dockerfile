@@ -2,7 +2,7 @@ ARG BASE_IMAGE=alpine:3.24
 
 # Final Docker image
 FROM ${BASE_IMAGE} AS final-stage
-LABEL MAINTAINER "Thomas Labarussias <issif+falcosidekick@gadz.org>"
+LABEL MAINTAINER "Hồ Quốc Trí"
 RUN apk add --update --no-cache ca-certificates
 # Create user falcosidekick
 RUN addgroup -S falcosidekickui && adduser -u 1234 -S falcosidekickui -G falcosidekickui

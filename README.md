@@ -1,4 +1,16 @@
-# Falcosidekick-ui
+<!-- Modified: added graduation project scope and local source build instructions. -->
+# Giám sát và phát hiện hành vi bất thường của container lúc chạy
+
+**Người thực hiện đồ án: Hồ Quốc Trí**
+
+Repository: https://github.com/helloboizzz26/DACN_CNTT
+
+Bản phát triển đồ án dựa trên Falcosidekick-UI. Xem [phạm vi, kiến trúc,
+lộ trình và hướng dẫn chạy mã nguồn riêng](docs/DO_AN.md).
+
+Tài liệu nền tảng kế thừa được giữ bên dưới để tham khảo.
+
+## Falcosidekick-ui (upstream)
 
 [![Falco Ecosystem Repository](https://github.com/falcosecurity/evolution/blob/main/repos/badges/falco-ecosystem-blue.svg)](https://github.com/falcosecurity/evolution/blob/main/REPOSITORIES.md#ecosystem-scope) [![Incubating](https://img.shields.io/badge/status-incubating-orange?style=for-the-badge)](https://github.com/falcosecurity/evolution/blob/main/REPOSITORIES.md#incubating)
 
@@ -155,7 +167,7 @@ make docs
 ![falcosidekick-ui](imgs/webui_04.png)
 ![falcosidekick-ui](imgs/webui_05.png)
 
-## Authors
+## Tác giả mã nguồn nền tảng (upstream)
 
 * Thomas Labarussias (https://github.com/Issif)
 * Frank Jogeleit (https://github.com/fjogeleit)

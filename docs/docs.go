@@ -31,9 +31,8 @@ const docTemplate = `{
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
         "contact": {
-            "name": "Falco Authors",
-            "url": "https://github.com/falcosecurity",
-            "email": "cncf-falco-dev@lists.cncf.io"
+            "name": "Hồ Quốc Trí",
+            "url": "https://github.com/helloboizzz26/DACN_CNTT"
         },
         "license": {
             "name": "Apache 2.0",

@@ -1,0 +1,7 @@
+# Merge with docker-compose.yml to run the project's own source code.
+services:
+  falcosidekick-ui:
+    image: container-runtime-monitor:local
+    build:
+      context: .
+      dockerfile: Dockerfile.source

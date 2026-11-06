@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  # 1. Cơ sở dữ liệu Redisearch lưu trữ và đánh chỉ mục các sự kiện
+  redis:
+    image: redislabs/redisearch:2.6.10
+    container_name: dacn-redisearch
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - falco-network
+
+  # 2. Giao diện Falcosidekick-UI (Dashboard trực quan hoá cảnh báo an ninh)
+  falcosidekick-ui:
+    image: falcosecurity/falcosidekick-ui:latest
+    container_name: dacn-falcosidekick-ui
+    restart: always
+    ports:
+      - "2802:2802"
+    environment:
+      - FALCOSIDEKICK_UI_REDIS_URL=redis:6379
+      - FALCOSIDEKICK_UI_USER=admin:admin
+      - FALCOSIDEKICK_UI_DISABLEAUTH=false
+      - FALCOSIDEKICK_UI_LOGLEVEL=info
+    depends_on:
+      - redis
+    networks:
+      - falco-network
+
+  # 3. Falcosidekick (Bộ định tuyến và forward sự kiện từ Falco tới UI/Redis)
+  falcosidekick:
+    image: falcosecurity/falcosidekick:latest
+    container_name: dacn-falcosidekick
+    restart: always
+    ports:
+      - "2801:2801"
+    environment:
+      - WEBUI_URL=http://falcosidekick-ui:2802
+      - LOG_LEVEL=info
+    depends_on:
+      - falcosidekick-ui
+    networks:
+      - falco-network
+
+  # 4. Falco Engine (Giám sát Syscall tầng Kernel eBPF để phát hiện bất thường của Container)
+  # Lưu ý: Cần chạy trên môi trường Linux (Ubuntu/Debian) hoặc Docker Desktop có hỗ trợ eBPF/Kernel probe
+  falco:
+    image: falcosecurity/falco-no-driver:latest
+    container_name: dacn-falco
+    restart: always
+    privileged: true
+    pid: host
+    environment:
+      - FALCO_BPF_PROBE=""
+    volumes:
+      - /var/run/docker.sock:/host/var/run/docker.sock
+      - /dev:/host/dev
+      - /proc:/host/proc:ro
+      - /boot:/host/boot:ro
+      - /lib/modules:/host/lib/modules:ro
+      - /usr:/host/usr:ro
+      - ./falco_rules.local.yaml:/etc/falco/falco_rules.local.yaml:ro
+    command:
+      - /usr/bin/falco
+      - --modern-bpf
+      - -o
+      - json_output=true
+      - -o
+      - http_output.enabled=true
+      - -o
+      - http_output.url=http://falcosidekick:2801/
+    depends_on:
+      - falcosidekick
+    networks:
+      - falco-network
+
+networks:
+  falco-network:
+    driver: bridge

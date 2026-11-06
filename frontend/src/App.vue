@@ -1,14 +1,10 @@
+<!-- Modified for the container runtime monitoring graduation project. -->
 <template>
   <v-app app>
     <v-app-bar app class="blue darken-2" dark>
-      <v-img
-        src="https://github.com/falcosecurity/falcosidekick/raw/master/imgs/falcosidekick_color.png"
-        max-height="40"
-        max-width="40"
-        style="margin-bottom: 5px; margin-right: 15px;">
-      </v-img>
+      <v-icon large class="mr-3">mdi-shield-search</v-icon>
       <v-toolbar-title class="text-no-wrap">
-        Falcosidekick UI
+        Giám sát Container
       </v-toolbar-title>
       <template v-slot:extension>
         <v-tabs>
@@ -17,7 +13,7 @@
             {{page.title}}
           </v-tab>
         </v-tabs>
-        refresh
+        Làm mới
         <v-select
           style="margin-top: 15px; margin-left: 15px; max-width: 80px;"
           v-model="refresh"
@@ -35,13 +31,13 @@
       class="blue darken-2 text-no-wrap" dark
     >
       <span>
-        2023 - <a href="https://github.com/falcosecurity/falcosidekick-ui">Falco Authors</a>
+        2026 - <a href="https://github.com/helloboizzz26/DACN_CNTT">Hồ Quốc Trí</a>
       </span>
       <v-spacer/>
       <span v-if="$store.state.username && $store.state.password">
-        logged as <b>{{$store.state.username}}</b>
+        Tài khoản <b>{{$store.state.username}}</b>
         <v-btn text x-small class="ml-3" @click="logout">
-          Logout
+          Đăng xuất
         </v-btn>
       </span>
     </v-footer>
@@ -63,16 +59,16 @@ export default {
         {
           href: '/dashboard',
           router: true,
-          title: 'Dashboard',
+          title: 'Tổng quan',
         }, {
           href: '/events',
           router: true,
-          title: 'Events',
+          title: 'Cảnh báo',
         },
         {
           href: '/info',
           router: true,
-          title: 'Info',
+          title: 'Hệ thống',
         },
         // {
         //   href: 'test',

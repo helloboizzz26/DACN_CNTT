@@ -124,9 +124,8 @@ func init() {
 // @title          Falcosidekick UI
 // @version        1.0
 // @description    Falcosidekick UI
-// @contact.name   Falco Authors
-// @contact.url    https://github.com/falcosecurity
-// @contact.email  cncf-falco-dev@lists.cncf.io
+// @contact.name   Hồ Quốc Trí
+// @contact.url    https://github.com/helloboizzz26/DACN_CNTT
 // @license.name   Apache 2.0
 // @license.url    http://www.apache.org/licenses/LICENSE-2.0.html
 // @accept         json
